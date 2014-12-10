@@ -32,8 +32,7 @@ end
 #deploy configuration for each user. Change s3cfg.erb template in your site cookbook to set 
 #you access key and secret. 
 node[:s3cmd][:users].each do |user|   
-  home = user.to_s == :root.to_s ? "/root" : "/home/#{user}"
-  
+  home = Dir.home(user)
   template "s3cfg" do
       path "#{home}/.s3cfg"
       source "s3cfg.erb"
