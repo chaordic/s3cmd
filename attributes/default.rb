@@ -1,5 +1,6 @@
-# list of users that will have the s3cmd configuration 
-default[:s3cmd][:users] = [:root]
+# User that will have the s3cmd configuration 
+default[:s3cmd][:install][:user] = "root"
+default[:s3cmd][:install][:home] = "/root"
 
 # S3 credentials
 default[:s3cmd][:aws_access_key_id] = ""
