@@ -29,15 +29,14 @@ link "#{node[:s3cmd][:install_prefix_root]}/bin/s3cmd" do
   action :create
 end
 
-#deploy configuration for each user. Change s3cfg.erb template in your site cookbook to set 
-#you access key and secret. 
-node[:s3cmd][:users].each do |user|   
-  home = Dir.home(user)
-  template "s3cfg" do
-      path "#{home}/.s3cfg"
-      source "s3cfg.erb"
-      user "#{user}"
-      group "#{user}"
-      mode 0600
-  end
+# Deploy configuration for the user. Change s3cfg.erb template in your site cookbook to set 
+# you access key and secret. 
+user = node[:s3cmd][:install][:user]
+home = node[:s3cmd][:install][:home]
+template "s3cfg" do
+    path "#{home}/.s3cfg"
+    source "s3cfg.erb"
+    user "#{user}"
+    group "#{user}"
+    mode 0600
 end
