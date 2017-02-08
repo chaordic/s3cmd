@@ -3,8 +3,8 @@
 # Recipe:: default
 #
 
-package "git-core"
-package "python-setuptools"
+package 'git-core'
+package 'python-setuptools'
 
 directory "#{node[:s3cmd][:install_prefix_root]}/share/s3cmd" do
   action :create
@@ -16,10 +16,10 @@ git "#{node[:s3cmd][:install_prefix_root]}/share/s3cmd" do
   action :sync
 end
 
-execute "build_s3cmd" do
+execute 'build_s3cmd' do
   user node[:s3cmd][:user]
   cwd "#{node[:s3cmd][:install_prefix_root]}/share/s3cmd"
-  command "python setup.py install"
+  command 'python setup.py install'
   action :run
 end
 
@@ -32,12 +32,12 @@ end
 #deploy configuration for each user. Change s3cfg.erb template in your site cookbook to set 
 #you access key and secret. 
 node[:s3cmd][:users].each do |user|   
-  home = 
-  template "s3cfg" do
+  template 's3cfg' do
       path lazy { "#{Dir.home(user)}/.s3cfg" }
-      source "s3cfg.erb"
-      user "#{user}"
-      group "#{user}"
+      source 's3cfg.erb'
+      cookbook node[:s3cmd][:templates_cookbook]
+      user user
+      group user
       mode 0600
   end
 end
